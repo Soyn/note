@@ -87,11 +87,49 @@ calculate: function () {
             },
 ```
 
+    如下图，使用pivot中方的getData方法拿到当前pivoTtable中的pivot的数据，如data、schema、valueIdentifiction信息。
 
 
 
+![](/assets/pivot_table_getData.png)
 
 
+
+```js
+            var render = function (sheet, dashboardTheme) {
+                var rowOffset = this._row, colOffset = this._col,
+                    rc = this.getRowCount(), cc = this.getColCount();
+
+                this.setTheme(new PivotTableTheme(this, dashboardTheme));
+
+                expandSheet(sheet, rowOffset, colOffset, rc, cc);  // 重新计算pivot table应该占用的行列
+
+                 this._theme.getAllNamedStyle().forEach(function (namedStyle) {
+                     sheet.addNamedStyle(namedStyle);
+                });
+                // 如果pivot中有数据的话，render这个pivot table
+                if (this._pivot && this._pivot.hasData()) {
+                    this._renderTable(sheet);
+                    this._hasData = true;
+                } else {
+                    this._renderEmptyTable(sheet);
+                    this._hasData = false;
+                }
+
+                this._sheet = sheet;
+
+                function expandSheet(sheet, row, col, rowCount, colcount) {
+                    var totalRowCount = row + rowCount;
+                    var totalColCount = col + colcount;
+                    if (sheet.getRowCount() < totalRowCount) {
+                        sheet.setRowCount(totalRowCount);
+                    }
+                    if (sheet.getColumnCount() < totalColCount) {
+                        sheet.setColumnCount(totalColCount);
+                    }
+                }
+            }
+```
 
 
 
