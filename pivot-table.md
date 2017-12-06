@@ -87,13 +87,11 @@ calculate: function () {
             },
 ```
 
-    如下图，使用pivot中方的getData方法拿到当前pivoTtable中的pivot的数据，如data、schema、valueIdentifiction信息。
-
-
+```
+如下图，使用pivot中方的getData方法拿到当前pivoTtable中的pivot的数据，如data、schema、valueIdentifiction信息。
+```
 
 ![](/assets/pivot_table_getData.png)
-
-
 
 ```js
             var render = function (sheet, dashboardTheme) {
@@ -131,5 +129,30 @@ calculate: function () {
             }
 ```
 
+```js
+                //render new pivot table area.
+                scenario.scenarioData.forEachScenarioInfo(sheetId, function (info, row, col, index) {
+                    var oldPivotTable = info.pivotTable;
+                    if (needUpdate(oldPivotTable, updatedPivotIds)) {
+                        var datasetId = info.data.getDataSetId();
+                        var pivot = info.data.getPivot(dataSets.getDataViewCache(datasetId));
+                        df.Calc.pivotCalc.addPivot(pivot);
+                        var datasetCache = df.dataPackageService.getDatasetCache(datasetId),
+                            datasetExist = datasetCache && datasetCache.deleted;
+                        var pivotTable = new PivotTable(row, col, pivot, !datasetExist);
+                        pivotTable.setPivotTableStyles(oldPivotTable.getPivotTableStyles()); //merge formatter.
+                        pivotTable.setOption(oldPivotTable.getOption(), true);
+                        pivotTable.calculate();
+                        pivotTable.preRender(sheet, oldPivotTable);
+                        pivotTable.render(sheet, dashboardTheme);
+                        scenario.scenarioData.updatePivotTable(sheetId, pivotTable);
 
+                        //update formula bar.
+                        var range = pivotTable.getRange().union(oldPivotTable.getRange());
+                        range && sheet.fireRangeChanged(range.row, range.col, range.rowCount, range.colCount);
+                    }
+                })
+```
+
+   
 
