@@ -87,13 +87,15 @@ calculate: function () {
             },
 ```
 
-```
 如下图，使用pivot中方的getData方法拿到当前pivoTtable中的pivot的数据，如data、schema、valueIdentifiction信息。
-```
 
-    上面的代码中，最核心的部分就是getData
+上面的代码中，最核心的部分就是getData里面的代码，getData的返回值如下图“
+
+*     Data数据包含了什么，这些数据是怎么计算的
 
 ![](/assets/pivot_table_getData.png)
+
+
 
 ```js
             var render = function (sheet, dashboardTheme) {
@@ -130,10 +132,6 @@ calculate: function () {
                 }
             }
 ```
-
-   
-
-    
 
 ```js
                 //render new pivot table area.
