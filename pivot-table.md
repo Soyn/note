@@ -91,6 +91,8 @@ calculate: function () {
 如下图，使用pivot中方的getData方法拿到当前pivoTtable中的pivot的数据，如data、schema、valueIdentifiction信息。
 ```
 
+    上面的代码中，最核心的部分就是getData
+
 ![](/assets/pivot_table_getData.png)
 
 ```js
@@ -129,6 +131,10 @@ calculate: function () {
             }
 ```
 
+   
+
+    
+
 ```js
                 //render new pivot table area.
                 scenario.scenarioData.forEachScenarioInfo(sheetId, function (info, row, col, index) {
@@ -152,12 +158,11 @@ calculate: function () {
                         range && sheet.fireRangeChanged(range.row, range.col, range.rowCount, range.colCount);
                     }
                 })
-                
 ```
 
-      如何计算pivot table的数据：
-
-
+```
+  如何计算pivot table的数据：
+```
 
 
 
