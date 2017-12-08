@@ -93,11 +93,42 @@ calculate: function () {
 
 ![](/assets/pivot_table_getData.png)
 
+
+
+getData的函数接收两个参数
+
+```js
+getData: function(scenarioType, option, /*isDvChart*/)
+```
+
 * Data数据包含了什么，这些数据是怎么计算的
 
 ```js
+    function VectorProcesser(pivot, customManager) {
+        this._pivot = pivot;
+        this._pivotSetting = pivot.getSetting();
+        this._customManager = customManager;
 
+        var aggregated = this._pivot._aggregateData;
+        var table = this._pivot._privateView.getDataSet().table;
+
+        this._columns = getColumnsCache(aggregated, table);
+        this._aggregated = aggregated;
+        this._overwirteData = this._customManager.getOverwriteVectors();
+    }
 ```
+
+    vectorprocessor是datset中处理数据的一个重要过程，上面是它的数据结构，数据的很多计算都是基于vector这个数据结构计算的，vector的来源有两种，一种来自于pivot setting，一种来自于customData，在计算的时候需要将这两个vector做一次merge：
+
+```js
+    function mergeAllVectors(vectors, customData, rankManager) {
+        var vectorsObj = $.extend({}, vectors, customData.getMergedOverwriteVectors());
+        var rankFilterFunc = rankManager.getVectorFilterFunc();
+        return Object.keys(vectorsObj).filter(rankFilterFunc);
+    }
+```
+
+
 
 ```js
             var render = function (sheet, dashboardTheme) {
