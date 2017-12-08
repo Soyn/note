@@ -152,7 +152,12 @@ calculate: function () {
                         range && sheet.fireRangeChanged(range.row, range.col, range.rowCount, range.colCount);
                     }
                 })
+                
 ```
 
-   
+      如何计算pivot table的数据：
+
+
+
+
 
