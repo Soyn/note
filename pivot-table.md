@@ -116,7 +116,11 @@ getData: function(scenarioType, option, /*isDvChart*/)
     }
 ```
 
-vectorprocessor是datset中处理数据的一个重要过程，上面是它的数据结构，数据的很多计算都是基于vector这个数据结构计算的，vector的来源有两种，一种来自于pivot setting，一种来自于customData，在计算的时候需要将这两个vector做一次merge：
+
+
+vectorProcessor是datset中处理数据的一个重要过程，上面是它的数据结构，数据的很多计算都是基于vector这个数据结构计算的，vector的来源有两种，一种来自于pivot setting，一种来自于customData，在计算的时候需要将这两个vector做一次merge：
+
+
 
 ```js
     function mergeAllVectors(vectors, customData, rankManager) {
@@ -164,11 +168,23 @@ vectorprocessor是datset中处理数据的一个重要过程，上面是它的�
 
 ![](/assets/import.png)
 
-
-
 如上图是在BuildPivotTbleHeader的时候每一个column的信息：
 
 * key映射了真实的数据
+* path
+* vectors
+
+
+
+实际上每一个node（前面计算好的colHeaderTree中的每一个node）的数据结构长下面这样
+
+![](/assets/colheaderNode.png)
+
+    
+
+    在这里向node（前面计算好的colHeaderTree）中push从aggregators中读出来的值：
+
+![](/assets/aggregator.png)
 
 ```js
                 //render new pivot table area.
@@ -195,7 +211,7 @@ vectorprocessor是datset中处理数据的一个重要过程，上面是它的�
                 })
 ```
 
-```
+```js
   如何计算pivot table的数据：
 ```
 
